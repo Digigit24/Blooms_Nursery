@@ -20,6 +20,9 @@ import { WorkspacesPopover } from '../components/workspaces-popover';
 import { NotificationsDrawer } from '../components/notifications-drawer';
 
 // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
 
 const StyledDivider = styled('span')(({ theme }) => ({
   width: 1,
