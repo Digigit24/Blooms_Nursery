@@ -8,11 +8,8 @@ import { SplashScreen } from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 
-const FaqsPage = lazy(() => import('src/pages/faqs'));
 const AboutPage = lazy(() => import('src/pages/about-us'));
 const ContactPage = lazy(() => import('src/pages/contact-us'));
-const PricingPage = lazy(() => import('src/pages/pricing'));
-const PaymentPage = lazy(() => import('src/pages/payment'));
 const ComingSoonPage = lazy(() => import('src/pages/coming-soon'));
 const MaintenancePage = lazy(() => import('src/pages/maintenance'));
 // Product
@@ -55,10 +52,6 @@ export const mainRoutes = [
             element: <ContactPage />,
           },
           {
-            path: 'faqs',
-            element: <FaqsPage />,
-          },
-          {
             path: 'blank',
             element: <BlankPage />,
           },
@@ -80,22 +73,6 @@ export const mainRoutes = [
             ],
           },
         ],
-      },
-      {
-        path: 'pricing',
-        element: (
-          <SimpleLayout>
-            <PricingPage />
-          </SimpleLayout>
-        ),
-      },
-      {
-        path: 'payment',
-        element: (
-          <SimpleLayout>
-            <PaymentPage />
-          </SimpleLayout>
-        ),
       },
       {
         path: 'coming-soon',
