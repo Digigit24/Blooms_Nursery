@@ -22,6 +22,9 @@ export const paths = {
   pricing: '/pricing',
   payment: '/payment',
   about: '/about-us',
+  achievement:'/achievement',
+  vision:'/vision',
+  mission:'/mission',
   contact: '/contact-us',
   faqs: '/faqs',
   page403: '/error/403',
@@ -151,6 +154,12 @@ export const paths = {
         details: `${ROOTS.DASHBOARD}/post/${paramCase(MOCK_TITLE)}`,
         edit: `${ROOTS.DASHBOARD}/post/${paramCase(MOCK_TITLE)}/edit`,
       },
+    },
+    // website---terms and conditions and privacy and policy
+    website:{
+      root:`${ROOTS.DASHBOARD}/website`,
+      privacy_policy:`${ROOTS.DASHBOARD}/website/privacy-policy`,
+      
     },
     order: {
       root: `${ROOTS.DASHBOARD}/order`,

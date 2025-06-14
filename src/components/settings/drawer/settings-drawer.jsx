@@ -27,7 +27,7 @@ import { FullScreenButton } from './fullscreen-button';
 export function SettingsDrawer({
   sx,
   hideFont,
-  hideCompact,
+  hideCompact, 
   hidePresets,
   hideNavColor,
   hideContrast,

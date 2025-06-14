@@ -2,11 +2,13 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import { OverviewBookingView } from 'src/sections/overview/booking/view';
+import {MissionView} from 'src/sections/mission/view/mission-view'
+
+
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Booking | Dashboard - ${CONFIG.site.name}` };
+const metadata = { title: `Mission - ${CONFIG.site.name}` };
 
 export default function Page() {
   return (
@@ -15,7 +17,7 @@ export default function Page() {
         <title> {metadata.title}</title>
       </Helmet>
 
-      <OverviewBookingView />
+     <MissionView/>
     </>
   );
 }

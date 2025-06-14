@@ -12,6 +12,9 @@ const AboutPage = lazy(() => import('src/pages/about-us'));
 const ContactPage = lazy(() => import('src/pages/contact-us'));
 const ComingSoonPage = lazy(() => import('src/pages/coming-soon'));
 const MaintenancePage = lazy(() => import('src/pages/maintenance'));
+const AchievementPage = lazy(()=> import('src/pages/achievement'));
+const VisionPage = lazy(()=> import('src/pages/vision'));
+const MissionPage = lazy(()=> import('src/pages/mission'));
 // Product
 const ProductListPage = lazy(() => import('src/pages/product/list'));
 const ProductDetailsPage = lazy(() => import('src/pages/product/details'));
@@ -50,6 +53,18 @@ export const mainRoutes = [
           {
             path: 'contact-us',
             element: <ContactPage />,
+          },
+           {
+            path: 'achievement',
+            element: <AchievementPage />,
+          },
+           {
+            path: 'vision',
+            element: <VisionPage />,
+          },
+             {
+            path: 'mission',
+            element: <MissionPage />,
           },
           {
             path: 'blank',

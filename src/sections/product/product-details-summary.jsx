@@ -1,5 +1,6 @@
+import { useForm } from 'react-hook-form';
 import { useEffect, useCallback } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+// , Controller
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -7,19 +8,20 @@ import Stack from '@mui/material/Stack';
 import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
+// import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import { formHelperTextClasses } from '@mui/material/FormHelperText';
+// import { formHelperTextClasses } from '@mui/material/FormHelperText';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
+// fCurrency, 
 
-import { fCurrency, fShortenNumber } from 'src/utils/format-number';
+import {fShortenNumber } from 'src/utils/format-number';
 
 import { Label } from 'src/components/label';
+import { Form } from 'src/components/hook-form'; 
 import { Iconify } from 'src/components/iconify';
-import { Form, Field } from 'src/components/hook-form';
-import { ColorPicker } from 'src/components/color-utils';
+// import { ColorPicker } from 'src/components/color-utils';
 
 import { IncrementerButton } from './components/incrementer-button';
 
@@ -102,20 +104,20 @@ export function ProductDetailsSummary({
     }
   }, [onAddCart, values]);
 
-  const renderPrice = (
-    <Box sx={{ typography: 'h5' }}>
-      {priceSale && (
-        <Box
-          component="span"
-          sx={{ color: 'text.disabled', textDecoration: 'line-through', mr: 0.5 }}
-        >
-          {fCurrency(priceSale)}
-        </Box>
-      )}
+  // const renderPrice = (
+  //   <Box sx={{ typography: 'h5' }}>
+  //     {priceSale && (
+  //       <Box
+  //         component="span"
+  //         sx={{ color: 'text.disabled', textDecoration: 'line-through', mr: 0.5 }}
+  //       >
+  //         {fCurrency(priceSale)}
+  //       </Box>
+  //     )}
 
-      {fCurrency(price)}
-    </Box>
-  );
+  //     {fCurrency(price)}
+  //   </Box>
+  // );
 
   const renderShare = (
     <Stack direction="row" spacing={3} justifyContent="center">
@@ -145,54 +147,54 @@ export function ProductDetailsSummary({
     </Stack>
   );
 
-  const renderColorOptions = (
-    <Stack direction="row">
-      <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
-        Color
-      </Typography>
+  // const renderColorOptions = (
+  //   <Stack direction="row">
+  //     <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
+  //       Color
+  //     </Typography>
 
-      <Controller
-        name="colors"
-        control={control}
-        render={({ field }) => (
-          <ColorPicker
-            colors={colors}
-            selected={field.value}
-            onSelectColor={(color) => field.onChange(color)}
-            limit={4}
-          />
-        )}
-      />
-    </Stack>
-  );
+  //     <Controller
+  //       name="colors"
+  //       control={control}
+  //       render={({ field }) => (
+  //         <ColorPicker
+  //           colors={colors}
+  //           selected={field.value}
+  //           onSelectColor={(color) => field.onChange(color)}
+  //           limit={4}
+  //         />
+  //       )}
+  //     />
+  //   </Stack>
+  // );
 
-  const renderSizeOptions = (
-    <Stack direction="row">
-      <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
-        Size
-      </Typography>
+  // const renderSizeOptions = (
+  //   <Stack direction="row">
+  //     <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
+  //       Size
+  //     </Typography>
 
-      <Field.Select
-        name="size"
-        size="small"
-        helperText={
-          <Link underline="always" color="textPrimary">
-            Size chart
-          </Link>
-        }
-        sx={{
-          maxWidth: 88,
-          [`& .${formHelperTextClasses.root}`]: { mx: 0, mt: 1, textAlign: 'right' },
-        }}
-      >
-        {sizes.map((size) => (
-          <MenuItem key={size} value={size}>
-            {size}
-          </MenuItem>
-        ))}
-      </Field.Select>
-    </Stack>
-  );
+  //     <Field.Select
+  //       name="size"
+  //       size="small"
+  //       helperText={
+  //         <Link underline="always" color="textPrimary">
+  //           Size chart
+  //         </Link>
+  //       }
+  //       sx={{
+  //         maxWidth: 88,
+  //         [`& .${formHelperTextClasses.root}`]: { mx: 0, mt: 1, textAlign: 'right' },
+  //       }}
+  //     >
+  //       {sizes.map((size) => (
+  //         <MenuItem key={size} value={size}>
+  //           {size}
+  //         </MenuItem>
+  //       ))}
+  //     </Field.Select>
+  //   </Stack>
+  // );
 
   const renderQuantity = (
     <Stack direction="row">
@@ -285,16 +287,16 @@ export function ProductDetailsSummary({
 
           {renderRating}
 
-          {renderPrice}
+          {/* {renderPrice} */}
 
           {renderSubDescription}
         </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        {renderColorOptions}
+        {/* {renderColorOptions}
 
-        {renderSizeOptions}
+        {renderSizeOptions} */}
 
         {renderQuantity}
 

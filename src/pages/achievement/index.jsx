@@ -2,11 +2,12 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import { OverviewAnalyticsView } from 'src/sections/overview/analytics/view';
+import {AchievementView} from 'src/sections/achievement/view/achievement-view'
+
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Analytics | Dashboard - ${CONFIG.site.name}` };
+const metadata = { title: `Achievement - ${CONFIG.site.name}` };
 
 export default function Page() {
   return (
@@ -15,7 +16,9 @@ export default function Page() {
         <title> {metadata.title}</title>
       </Helmet>
 
-      <OverviewAnalyticsView />
+      <AchievementView/>
+
+      
     </>
   );
 }

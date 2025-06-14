@@ -3,17 +3,15 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
+import Rating from '@mui/material/Rating';  
 import Tooltip from '@mui/material/Tooltip';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
-import { fCurrency } from 'src/utils/format-number';
-
 import { Label } from 'src/components/label';
 import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
-import { ColorPreview } from 'src/components/color-utils';
 
 import { useCheckoutContext } from '../checkout/context';
 
@@ -22,8 +20,20 @@ import { useCheckoutContext } from '../checkout/context';
 export function ProductItem({ product }) {
   const checkout = useCheckoutContext();
 
-  const { id, name, coverUrl, price, colors, available, sizes, priceSale, newLabel, saleLabel } =
-    product;
+  const {
+    id,
+    name,
+    coverUrl,
+    price,
+    colors,
+    available,
+    sizes,
+    priceSale,
+    newLabel,
+    saleLabel,
+    totalRatings,    // <-- Add ratings from product
+    totalReviews,    // <-- Add reviews count from product
+  } = product;
 
   const linkTo = paths.product.details(id);
 
@@ -107,23 +117,15 @@ export function ProductItem({ product }) {
   );
 
   const renderContent = (
-    <Stack spacing={2.5} sx={{ p: 3, pt: 2 }}>
+    <Stack spacing={1.5} sx={{ p: 3, pt: 2 }}>
       <Link component={RouterLink} href={linkTo} color="inherit" variant="subtitle2" noWrap>
         {name}
       </Link>
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <ColorPreview colors={colors} />
-
-        <Stack direction="row" spacing={0.5} sx={{ typography: 'subtitle1' }}>
-          {priceSale && (
-            <Box component="span" sx={{ color: 'text.disabled', textDecoration: 'line-through' }}>
-              {fCurrency(priceSale)}
-            </Box>
-          )}
-
-          <Box component="span">{fCurrency(price)}</Box>
-        </Stack>
+      {/* ⭐ Added Ratings Below Name */}
+      <Stack direction="row" alignItems="center" sx={{ color: 'text.disabled', typography: 'body2' }}>
+        <Rating size="small" value={totalRatings} precision={0.1} readOnly sx={{ mr: 0.5 }} />
+        ({totalReviews} reviews)
       </Stack>
     </Stack>
   );
@@ -131,9 +133,7 @@ export function ProductItem({ product }) {
   return (
     <Card sx={{ '&:hover .add-cart-btn': { opacity: 1 } }}>
       {renderLabels}
-
       {renderImg}
-
       {renderContent}
     </Card>
   );
