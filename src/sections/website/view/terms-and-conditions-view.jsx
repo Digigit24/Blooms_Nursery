@@ -36,8 +36,8 @@ import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
 // ----------------------------------------------------------------------
 
-// Schema for Privacy Policy Form
-const PrivacyPolicySchema = zod.object({
+// Schema for Terms and Conditions Form
+const TermsConditionsSchema = zod.object({
   title: zod.string().min(1, { message: 'Title is required!' }),
   content: schemaHelper.editor().min(100, { message: 'Content must be at least 100 characters' }),
   effectiveDate: zod.string().min(1, { message: 'Effective date is required!' }),
@@ -48,43 +48,53 @@ const PrivacyPolicySchema = zod.object({
 });
 
 // Mock data - replace with actual API call
-const mockCurrentPolicy = {
+const mockCurrentTerms = {
   id: '1',
-  title: 'Privacy Policy',
+  title: 'Terms and Conditions',
   content: `
-# Privacy Policy
+# Terms and Conditions
 
 ## Introduction
-We respect your privacy and are committed to protecting your personal data.
+These Terms and Conditions govern your use of our service and tell you how we operate.
 
-## Information We Collect
-- Personal identification information
-- Usage data
-- Cookies and tracking technologies
+## Acceptance of Terms
+By accessing and using our service, you accept and agree to be bound by the terms and provision of this agreement.
 
-## How We Use Your Information
-We use the information we collect to:
-- Provide and maintain our services
-- Improve user experience
-- Communicate with you
+## Use License
+Permission is granted to temporarily download one copy of the materials on our website for personal, non-commercial transitory viewing only.
 
-## Data Protection
-We implement appropriate security measures to protect your data.
+## Disclaimer
+The materials on our website are provided on an 'as is' basis. We make no warranties, expressed or implied, and hereby disclaim and negate all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
 
-## Contact Us
-If you have questions about this privacy policy, please contact us.
+## Limitations
+In no event shall our company or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on our website.
+
+## Account Terms
+You are responsible for safeguarding the password that you use to access the service and for all activities that occur under your account.
+
+## Prohibited Uses
+You may not use our service for any illegal or unauthorized purpose or to violate any laws in your jurisdiction.
+
+## Termination
+We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever.
+
+## Changes to Terms
+We reserve the right, at our sole discretion, to modify or replace these Terms at any time.
+
+## Contact Information
+If you have any questions about these Terms and Conditions, please contact us.
   `,
   effectiveDate: '2024-01-01',
   version: '2.0',
   lastUpdated: '2024-06-01',
-  summary: 'This policy explains how we collect, use, and protect your personal information.',
+  summary: 'These terms outline the rules and regulations for using our service and your rights and responsibilities as a user.',
   isActive: true,
 };
 
 // ----------------------------------------------------------------------
 
-// Privacy Policy Preview Component
-function PrivacyPolicyPreview({
+// Terms and Conditions Preview Component
+function TermsConditionsPreview({
   title,
   content,
   effectiveDate,
@@ -101,7 +111,7 @@ function PrivacyPolicyPreview({
   const renderHeader = (
     <Stack spacing={2} sx={{ p: 3, pb: 2 }}>
       <Typography variant="h4" component="h1">
-        {title || 'Privacy Policy'}
+        {title || 'Terms and Conditions'}
       </Typography>
       
       <Stack direction="row" spacing={3} sx={{ color: 'text.secondary' }}>
@@ -141,12 +151,12 @@ function PrivacyPolicyPreview({
             flexDirection: 'column',
           }}
         >
-          <Iconify icon="solar:document-bold" width={48} sx={{ color: 'text.disabled', mb: 2 }} />
+          <Iconify icon="solar:document-text-bold" width={48} sx={{ color: 'text.disabled', mb: 2 }} />
           <Typography variant="h6" color="text.disabled">
             No content available
           </Typography>
           <Typography variant="body2" color="text.disabled">
-            Start writing your privacy policy content to see the preview
+            Start writing your terms and conditions content to see the preview
           </Typography>
         </Box>
       )}
@@ -175,7 +185,7 @@ function PrivacyPolicyPreview({
           loading={isSubmitting}
           disabled={!isValid}
         >
-          Save Policy
+          Save Terms
         </LoadingButton>
       </Stack>
     </DialogActions>
@@ -211,12 +221,12 @@ function PrivacyPolicyPreview({
                   justifyContent: 'center',
                 }}
               >
-                <Iconify icon="solar:document-bold" width={64} sx={{ color: 'text.disabled', mb: 3 }} />
+                <Iconify icon="solar:document-text-bold" width={64} sx={{ color: 'text.disabled', mb: 3 }} />
                 <Typography variant="h5" color="text.disabled" gutterBottom>
                   No Preview Available
                 </Typography>
                 <Typography variant="body2" color="text.disabled">
-                  Fill in the form fields to see your privacy policy preview
+                  Fill in the form fields to see your terms and conditions preview
                 </Typography>
               </Box>
             )}
@@ -232,26 +242,26 @@ function PrivacyPolicyPreview({
 
 // ----------------------------------------------------------------------
 
-// Privacy Policy Form Component
-function PrivacyPolicyForm({ currentPolicy, onSuccess }) {
+// Terms and Conditions Form Component
+function TermsConditionsForm({ currentTerms, onSuccess }) {
   const router = useRouter();
   const preview = useBoolean();
 
   const defaultValues = useMemo(
     () => ({
-      title: currentPolicy?.title || 'Privacy Policy',
-      content: currentPolicy?.content || '',
-      effectiveDate: currentPolicy?.effectiveDate || '',
-      version: currentPolicy?.version || '1.0',
-      lastUpdated: currentPolicy?.lastUpdated || '',
-      summary: currentPolicy?.summary || '',
+      title: currentTerms?.title || 'Terms and Conditions',
+      content: currentTerms?.content || '',
+      effectiveDate: currentTerms?.effectiveDate || '',
+      version: currentTerms?.version || '1.0',
+      lastUpdated: currentTerms?.lastUpdated || '',
+      summary: currentTerms?.summary || '',
     }),
-    [currentPolicy]
+    [currentTerms]
   );
 
   const methods = useForm({
     mode: 'all',
-    resolver: zodResolver(PrivacyPolicySchema),
+    resolver: zodResolver(TermsConditionsSchema),
     defaultValues,
   });
 
@@ -265,10 +275,10 @@ function PrivacyPolicyForm({ currentPolicy, onSuccess }) {
   const values = watch();
 
   useEffect(() => {
-    if (currentPolicy) {
+    if (currentTerms) {
       reset(defaultValues);
     }
-  }, [currentPolicy, defaultValues, reset]);
+  }, [currentTerms, defaultValues, reset]);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -282,24 +292,24 @@ function PrivacyPolicyForm({ currentPolicy, onSuccess }) {
 
       reset();
       preview.onFalse();
-      toast.success(currentPolicy ? 'Privacy Policy updated successfully!' : 'Privacy Policy created successfully!');
+      toast.success(currentTerms ? 'Terms and Conditions updated successfully!' : 'Terms and Conditions created successfully!');
       
       if (onSuccess) {
         onSuccess(submitData);
       }
       
-      console.info('PRIVACY POLICY DATA', submitData);
+      console.info('TERMS AND CONDITIONS DATA', submitData);
     } catch (error) {
       console.error(error);
       toast.error('Something went wrong!');
     }
   });
 
-  const renderPolicyDetails = (
+  const renderTermsDetails = (
     <Card>
       <CardHeader 
-        title="Policy Details" 
-        subheader="Basic information about the privacy policy..." 
+        title="Terms Details" 
+        subheader="Basic information about the terms and conditions..." 
         sx={{ mb: 3 }} 
       />
 
@@ -308,8 +318,8 @@ function PrivacyPolicyForm({ currentPolicy, onSuccess }) {
       <Stack spacing={3} sx={{ p: 3 }}>
         <Field.Text 
           name="title" 
-          label="Policy Title" 
-          placeholder="e.g., Privacy Policy, Data Protection Policy"
+          label="Terms Title" 
+          placeholder="e.g., Terms and Conditions, Terms of Service, User Agreement"
         />
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
@@ -335,17 +345,17 @@ function PrivacyPolicyForm({ currentPolicy, onSuccess }) {
           label="Summary (Optional)" 
           multiline 
           rows={2}
-          placeholder="Brief summary of key policy points..."
+          placeholder="Brief summary of key terms and user responsibilities..."
         />
       </Stack>
     </Card>
   );
 
-  const renderPolicyContent = (
+  const renderTermsContent = (
     <Card>
       <CardHeader 
-        title="Policy Content" 
-        subheader="The main content of your privacy policy..." 
+        title="Terms Content" 
+        subheader="The main content of your terms and conditions..." 
         sx={{ mb: 3 }} 
       />
 
@@ -353,10 +363,10 @@ function PrivacyPolicyForm({ currentPolicy, onSuccess }) {
 
       <Stack spacing={3} sx={{ p: 3 }}>
         <Stack spacing={1.5}>
-          <Typography variant="subtitle2">Policy Content</Typography>
+          <Typography variant="subtitle2">Terms Content</Typography>
           <Typography variant="body2" color="text.secondary">
-            Write your complete privacy policy content here. Include sections like data collection, 
-            usage, sharing, user rights, contact information, etc.
+            Write your complete terms and conditions content here. Include sections like acceptance of terms, 
+            use license, user accounts, prohibited uses, termination, liability limitations, etc.
           </Typography>
           <Field.Editor name="content" sx={{ maxHeight: 600 }} />
         </Stack>
@@ -367,8 +377,8 @@ function PrivacyPolicyForm({ currentPolicy, onSuccess }) {
   const renderActions = (
     <Box display="flex" alignItems="center" flexWrap="wrap" justifyContent="space-between">
       <FormControlLabel
-        control={<Switch defaultChecked inputProps={{ id: 'active-policy-switch' }} />}
-        label="Set as Active Policy"
+        control={<Switch defaultChecked inputProps={{ id: 'active-terms-switch' }} />}
+        label="Set as Active Terms"
         sx={{ flexGrow: 1 }}
       />
 
@@ -390,7 +400,7 @@ function PrivacyPolicyForm({ currentPolicy, onSuccess }) {
           loading={isSubmitting}
           disabled={!isValid}
         >
-          {!currentPolicy ? 'Create Policy' : 'Update Policy'}
+          {!currentTerms ? 'Create Terms' : 'Update Terms'}
         </LoadingButton>
       </Box>
     </Box>
@@ -400,13 +410,13 @@ function PrivacyPolicyForm({ currentPolicy, onSuccess }) {
     <>
       <Form methods={methods} onSubmit={onSubmit}>
         <Stack spacing={4} sx={{ mx: 'auto', maxWidth: { xs: 720, xl: 880 } }}>
-          {renderPolicyDetails}
-          {renderPolicyContent}
+          {renderTermsDetails}
+          {renderTermsContent}
           {renderActions}
         </Stack>
       </Form>
 
-      <PrivacyPolicyPreview
+      <TermsConditionsPreview
         isValid={isValid}
         onSubmit={onSubmit}
         title={values.title}
@@ -424,32 +434,32 @@ function PrivacyPolicyForm({ currentPolicy, onSuccess }) {
 
 // ----------------------------------------------------------------------
 
-// Main Privacy and Policy View Component
-export function PrivacyAndPolicyView() {
+// Main Terms and Conditions View Component
+export function TermsAndConditionsView() {
   const router = useRouter();
-  const [currentPolicy, setCurrentPolicy] = useState(null);
+  const [currentTerms, setCurrentTerms] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    // Simulate API call to fetch current policy
-    const fetchPolicy = async () => {
+    // Simulate API call to fetch current terms
+    const fetchTerms = async () => {
       try {
         setLoading(true);
         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
-        setCurrentPolicy(mockCurrentPolicy);
+        setCurrentTerms(mockCurrentTerms);
       } catch (error) {
-        console.error('Error fetching policy:', error);
+        console.error('Error fetching terms:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPolicy();
+    fetchTerms();
   }, []);
 
   const handleCreateNew = () => {
-    setCurrentPolicy(null);
+    setCurrentTerms(null);
     setEditMode(true);
   };
 
@@ -458,7 +468,7 @@ export function PrivacyAndPolicyView() {
   };
 
   const handleFormSuccess = (data) => {
-    setCurrentPolicy(data);
+    setCurrentTerms(data);
     setEditMode(false);
   };
 
@@ -466,11 +476,11 @@ export function PrivacyAndPolicyView() {
     setEditMode(false);
   };
 
-  const renderCurrentPolicy = currentPolicy && !editMode && (
+  const renderCurrentTerms = currentTerms && !editMode && (
     <Card sx={{ mb: 4 }}>
       <CardContent>
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-          <Typography variant="h6">Current Active Policy</Typography>
+          <Typography variant="h6">Current Active Terms</Typography>
           <Stack direction="row" spacing={1}>
             <Button
               variant="outlined"
@@ -491,20 +501,20 @@ export function PrivacyAndPolicyView() {
 
         <Stack spacing={1}>
           <Typography variant="body2" color="text.secondary">
-            <strong>Title:</strong> {currentPolicy.title}
+            <strong>Title:</strong> {currentTerms.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            <strong>Version:</strong> {currentPolicy.version}
+            <strong>Version:</strong> {currentTerms.version}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            <strong>Effective Date:</strong> {new Date(currentPolicy.effectiveDate).toLocaleDateString()}
+            <strong>Effective Date:</strong> {new Date(currentTerms.effectiveDate).toLocaleDateString()}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            <strong>Last Updated:</strong> {new Date(currentPolicy.lastUpdated).toLocaleDateString()}
+            <strong>Last Updated:</strong> {new Date(currentTerms.lastUpdated).toLocaleDateString()}
           </Typography>
-          {currentPolicy.summary && (
+          {currentTerms.summary && (
             <Typography variant="body2" color="text.secondary">
-              <strong>Summary:</strong> {currentPolicy.summary}
+              <strong>Summary:</strong> {currentTerms.summary}
             </Typography>
           )}
         </Stack>
@@ -528,11 +538,11 @@ export function PrivacyAndPolicyView() {
     <DashboardContent>
       <Container maxWidth="xl">
         <CustomBreadcrumbs
-          heading="Privacy & Policy Management"
+          heading="Terms & Conditions Management"
           links={[
             { name: 'Dashboard', href: paths.dashboard.root },
             { name: 'Settings', href: paths.dashboard.settings?.root },
-            { name: 'Privacy Policy' },
+            { name: 'Terms & Conditions' },
           ]}
           action={
             !editMode && (
@@ -541,20 +551,20 @@ export function PrivacyAndPolicyView() {
                 startIcon={<Iconify icon="mingcute:add-line" />}
                 onClick={handleCreateNew}
               >
-                Create New Policy
+                Create New Terms
               </Button>
             )
           }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
 
-        {renderCurrentPolicy}
+        {renderCurrentTerms}
 
         {editMode && (
           <>
             <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
               <Typography variant="h4">
-                {currentPolicy ? 'Edit Privacy Policy' : 'Create Privacy Policy'}
+                {currentTerms ? 'Edit Terms and Conditions' : 'Create Terms and Conditions'}
               </Typography>
               <Button
                 color="inherit"
@@ -566,14 +576,14 @@ export function PrivacyAndPolicyView() {
               </Button>
             </Stack>
 
-            <PrivacyPolicyForm 
-              currentPolicy={currentPolicy} 
+            <TermsConditionsForm 
+              currentTerms={currentTerms} 
               onSuccess={handleFormSuccess}
             />
           </>
         )}
 
-        {!editMode && !currentPolicy && (
+        {!editMode && !currentTerms && (
           <Card>
             <CardContent>
               <Box
@@ -585,19 +595,19 @@ export function PrivacyAndPolicyView() {
                   flexDirection: 'column',
                 }}
               >
-                <Iconify icon="solar:document-bold" width={64} sx={{ color: 'text.disabled', mb: 3 }} />
+                <Iconify icon="solar:document-text-bold" width={64} sx={{ color: 'text.disabled', mb: 3 }} />
                 <Typography variant="h5" color="text.disabled" gutterBottom>
-                  No Privacy Policy Found
+                  No Terms and Conditions Found
                 </Typography>
                 <Typography variant="body2" color="text.disabled" sx={{ mb: 3 }}>
-                  Create your first privacy policy to get started
+                  Create your first terms and conditions to get started
                 </Typography>
                 <Button
                   variant="contained"
                   startIcon={<Iconify icon="mingcute:add-line" />}
                   onClick={handleCreateNew}
                 >
-                  Create Privacy Policy
+                  Create Terms and Conditions
                 </Button>
               </Box>
             </CardContent>

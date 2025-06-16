@@ -156,11 +156,11 @@ export const paths = {
       },
     },
     // website---terms and conditions and privacy and policy
-    website:{
-      root:`${ROOTS.DASHBOARD}/website`,
-      privacy_policy:`${ROOTS.DASHBOARD}/website/privacy-policy`,
-      
-    },
+   website: {
+  root: `${ROOTS.DASHBOARD}/website`,
+  privacy_policy: `${ROOTS.DASHBOARD}/website/privacy_policy`,
+  terms_conditions: `${ROOTS.DASHBOARD}/website/terms_conditions`, // Keep this consistent
+},
     order: {
       root: `${ROOTS.DASHBOARD}/order`,
       details: (id) => `${ROOTS.DASHBOARD}/order/${id}`,

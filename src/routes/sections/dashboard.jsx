@@ -29,6 +29,8 @@ const BlogEditPostPage = lazy(() => import('src/pages/dashboard/post/edit'));
 // Website
 
 const PrivacyAndPolicyPage = lazy(()=>import('src/pages/dashboard/website/details'));
+const TermsAndConditionsPage = lazy(()=>import('src/pages/dashboard/website/details1'));
+
 
 
 const layoutContent = (
@@ -69,7 +71,8 @@ export const dashboardRoutes = [
         path: 'website',
         children: [
           { element: <PrivacyAndPolicyPage />, index: true },
-          { path: 'privacy-policy', element: <PrivacyAndPolicyPage /> },
+          { path: 'privacy_policy', element: <PrivacyAndPolicyPage /> },
+          { path: 'terms_conditions', element: <TermsAndConditionsPage /> },
           
         ],
       },

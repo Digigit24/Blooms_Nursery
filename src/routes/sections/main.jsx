@@ -29,6 +29,10 @@ const Page404 = lazy(() => import('src/pages/error/404'));
 // Blank
 const BlankPage = lazy(() => import('src/pages/blank'));
 
+// website
+const PrivacyAndPolicyPage = lazy(()=> import('src/pages/dashboard/website/details'));
+const TermsAndConditionsPage = lazy(()=> import('src/pages/dashboard/website/details1'));
+
 // ----------------------------------------------------------------------
 
 export const mainRoutes = [
@@ -85,6 +89,15 @@ export const mainRoutes = [
               { element: <PostListPage />, index: true },
               { path: 'list', element: <PostListPage /> },
               { path: ':title', element: <PostDetailsPage /> },
+            ],
+          },
+          {
+            path: 'website',
+            children: [
+              { element: <PrivacyAndPolicyPage />, index: true },
+              { path: 'Privacy-policy', element: <PrivacyAndPolicyPage /> },
+              { path: 'Terms-Conditions', element: <TermsAndConditionsPage /> },
+              
             ],
           },
         ],

@@ -75,6 +75,15 @@ export const navData = [
           { title: 'Edit', path: paths.dashboard.post.demo.edit },
         ],
       },
+     {
+  title: 'Website',
+  path: paths.dashboard.website.root,
+  icon: ICONS.blog,
+  children: [
+    { title: 'Privacy-Policy', path: paths.dashboard.website.privacy_policy },
+    { title: 'Terms-Conditions', path: paths.dashboard.website.terms_conditions }, 
+  ],
+},
     ],
   },
 ];
