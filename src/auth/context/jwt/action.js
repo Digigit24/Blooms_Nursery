@@ -1,43 +1,62 @@
 import axios, { endpoints } from 'src/utils/axios';
-
 import { setSession } from './utils';
 import { STORAGE_KEY } from './constant';
 
-/** **************************************
- * Sign in
- *************************************** */
-export const signInWithPassword = async ({ email, password }) => {
+export const signInWithPassword = async ({ username, password }) => {
   try {
-    const params = { email, password };
+    const response = await axios.post(endpoints.auth.signIn, {
+      username,
+      password,
+    });
 
-    const res = await axios.post(endpoints.auth.signIn, params);
-
-    const { accessToken } = res.data;
-
-    if (!accessToken) {
-      throw new Error('Access token not found in response');
+    if (!response.data.success) {
+      throw new Error(response.data.message || 'Login failed');
     }
 
-    setSession(accessToken);
+    const { token, admin, expiresIn } = response.data.data;
+
+    if (!token) {
+      throw new Error('No access token received from server');
+    }
+
+    if (!admin) {
+      throw new Error('No user data received from server');
+    }
+
+    localStorage.setItem('adminToken', token);
+    localStorage.setItem('adminData', JSON.stringify(admin));
+    setSession(token);
+
+    return {
+      success: true,
+      accessToken: token,
+      user: admin,
+      expiresIn,
+    };
   } catch (error) {
-    console.error('Error during sign in:', error);
-    throw error;
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminData');
+
+    if (error.response) {
+      const message =
+        error.response.data?.message || error.response.data?.error || 'Login failed';
+      throw new Error(message);
+    } else if (error.request) {
+      throw new Error('Network error - please check your connection');
+    } else {
+      throw error;
+    }
   }
 };
 
-/** **************************************
- * Sign up
- *************************************** */
 export const signUp = async ({ email, password, firstName, lastName }) => {
-  const params = {
-    email,
-    password,
-    firstName,
-    lastName,
-  };
-
   try {
-    const res = await axios.post(endpoints.auth.signUp, params);
+    const res = await axios.post(endpoints.auth.signUp, {
+      email,
+      password,
+      firstName,
+      lastName,
+    });
 
     const { accessToken } = res.data;
 
@@ -47,19 +66,14 @@ export const signUp = async ({ email, password, firstName, lastName }) => {
 
     sessionStorage.setItem(STORAGE_KEY, accessToken);
   } catch (error) {
-    console.error('Error during sign up:', error);
     throw error;
   }
 };
 
-/** **************************************
- * Sign out
- *************************************** */
 export const signOut = async () => {
   try {
     await setSession(null);
   } catch (error) {
-    console.error('Error during sign out:', error);
     throw error;
   }
 };

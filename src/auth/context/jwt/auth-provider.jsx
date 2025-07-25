@@ -2,9 +2,9 @@ import { useMemo, useEffect, useCallback } from 'react';
 
 import { useSetState } from 'src/hooks/use-set-state';
 
-import axios, { endpoints } from 'src/utils/axios';
+// import axios, { endpoints } from 'src/utils/axios';
 
-import { STORAGE_KEY } from './constant';
+// import { STORAGE_KEY } from './constant';
 import { AuthContext } from '../auth-context';
 import { setSession, isValidToken } from './utils';
 
@@ -16,24 +16,33 @@ export function AuthProvider({ children }) {
     loading: true,
   });
 
+  // In AuthProvider
   const checkUserSession = useCallback(async () => {
     try {
-      const accessToken = sessionStorage.getItem(STORAGE_KEY);
-
+      const accessToken = localStorage.getItem('adminToken');
+      
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
-
-        const res = await axios.get(endpoints.auth.me);
-
-        const { user } = res.data;
-
-        setState({ user: { ...user, accessToken }, loading: false });
+        const adminData = JSON.parse(localStorage.getItem('adminData'));
+        
+        if (adminData) {
+          setState({
+            user: { ...adminData, accessToken },
+            loading: false,
+          });
+          return true; // ← Return success
+        } else {
+          setState({ user: null, loading: false });
+          return false;
+        }
       } else {
         setState({ user: null, loading: false });
+        return false;
       }
     } catch (error) {
-      console.error(error);
+      console.error('Auth check failed:', error);
       setState({ user: null, loading: false });
+      return false;
     }
   }, [setState]);
 
@@ -53,7 +62,7 @@ export function AuthProvider({ children }) {
       user: state.user
         ? {
             ...state.user,
-            role: state.user?.role ?? 'admin',
+            role: state.user?.role ?? 'admin', // default role fallback
           }
         : null,
       checkUserSession,

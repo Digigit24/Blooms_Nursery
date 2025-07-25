@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
 import LinearProgress from '@mui/material/LinearProgress';
 
@@ -13,7 +14,7 @@ import { Label } from 'src/components/label';
 // ----------------------------------------------------------------------
 
 export function RenderCellPrice({ params }) {
-  return fCurrency(params.row.price);
+  return <Box sx={{ typography: 'body2' }}>{fCurrency(params.row.price)}</Box>;
 }
 
 // ----------------------------------------------------------------------
@@ -31,7 +32,9 @@ export function RenderCellPublish({ params }) {
 export function RenderCellCreatedAt({ params }) {
   return (
     <Stack spacing={0.5}>
-      <Box component="span">{fDate(params.row.createdAt)}</Box>
+      <Box component="span" sx={{ typography: 'body2' }}>
+        {fDate(params.row.createdAt)}
+      </Box>
       <Box component="span" sx={{ typography: 'caption', color: 'text.secondary' }}>
         {fTime(params.row.createdAt)}
       </Box>
@@ -42,19 +45,46 @@ export function RenderCellCreatedAt({ params }) {
 // ----------------------------------------------------------------------
 
 export function RenderCellStock({ params }) {
+  const { row } = params;
+  
+  // Determine stock status based on inventoryType
+  const getStockProgress = () => {
+    switch (row.inventoryType) {
+      case 'out of stock':
+        return 0;
+      case 'low stock':
+        return 30;
+      case 'in stock':
+        return 100;
+      default:
+        return 50;
+    }
+  };
+
+  const getStockColor = () => {
+    switch (row.inventoryType) {
+      case 'out of stock':
+        return 'error';
+      case 'low stock':
+        return 'warning';
+      case 'in stock':
+        return 'success';
+      default:
+        return 'primary';
+    }
+  };
+
   return (
-    <Stack justifyContent="center" sx={{ typography: 'caption', color: 'text.secondary' }}>
+    <Stack spacing={1} sx={{ minWidth: 120 }}>
       <LinearProgress
-        value={(params.row.available * 100) / params.row.quantity}
+        value={getStockProgress()}
         variant="determinate"
-        color={
-          (params.row.inventoryType === 'out of stock' && 'error') ||
-          (params.row.inventoryType === 'low stock' && 'warning') ||
-          'success'
-        }
-        sx={{ mb: 1, width: 1, height: 6, maxWidth: 80 }}
+        color={getStockColor()}
+        sx={{ width: 1, height: 6 }}
       />
-      {!!params.row.available && params.row.available} {params.row.inventoryType}
+      <Typography variant="caption" sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
+        {row.inventoryType}
+      </Typography>
     </Stack>
   );
 }
@@ -62,34 +92,71 @@ export function RenderCellStock({ params }) {
 // ----------------------------------------------------------------------
 
 export function RenderCellProduct({ params, onViewRow }) {
-  return (
-    <Stack direction="row" alignItems="center" sx={{ py: 2, width: 1 }}>
-      <Avatar
-        alt={params.row.name}
-        src={params.row.coverUrl}
-        variant="rounded"
-        sx={{ width: 64, height: 64, mr: 2 }}
-      />
+  const { row } = params;
+  
+  const handleClick = (event) => {
+    event.preventDefault();
+    onViewRow?.();
+  };
 
+  return (
+    <Stack direction="row" alignItems="center" spacing={2} sx={{ py: 1 }}>
+      <Avatar
+        variant="rounded"
+        src={row.image}
+        alt={row.name}
+        sx={{ 
+          width: 48, 
+          height: 48,
+          bgcolor: 'background.neutral',
+          '& img': {
+            objectFit: 'cover',
+          }
+        }}
+      >
+        {!row.image && row.name?.charAt(0)?.toUpperCase()}
+      </Avatar>
+      
       <ListItemText
-        disableTypography
         primary={
           <Link
-            noWrap
-            color="inherit"
+            component="button"
             variant="subtitle2"
-            onClick={onViewRow}
-            sx={{ cursor: 'pointer' }}
+            onClick={handleClick}
+            sx={{
+              color: 'text.primary',
+              textDecoration: 'none',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            }}
           >
-            {params.row.name}
+            {row.name}
           </Link>
         }
         secondary={
-          <Box component="div" sx={{ typography: 'body2', color: 'text.disabled' }}>
-            {params.row.category}
-          </Box>
+          <Stack direction="row" spacing={1} sx={{ mt: 0.5 }}>
+            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+              Category: {row.category || 'N/A'}
+            </Typography>
+            {row.rating && (
+              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                • Rating: {row.rating}
+              </Typography>
+            )}
+            {row.reviews && (
+              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                • Reviews: {row.reviews}
+              </Typography>
+            )}
+          </Stack>
         }
-        sx={{ display: 'flex', flexDirection: 'column' }}
+        primaryTypographyProps={{
+          component: 'div',
+        }}
+        secondaryTypographyProps={{
+          component: 'div',
+        }}
       />
     </Stack>
   );
