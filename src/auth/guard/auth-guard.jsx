@@ -61,7 +61,9 @@ export function AuthGuard({ children }) {
       }
     }, 100); // Small delay to let state settle
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [authenticated, loading, pathname, router, createQueryString, hasChecked]);
 
   if (loading || isChecking) {

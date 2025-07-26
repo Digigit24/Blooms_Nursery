@@ -31,14 +31,12 @@ export function AuthProvider({ children }) {
             loading: false,
           });
           return true; // ← Return success
-        } else {
-          setState({ user: null, loading: false });
-          return false;
         }
-      } else {
         setState({ user: null, loading: false });
         return false;
       }
+      setState({ user: null, loading: false });
+      return false;
     } catch (error) {
       console.error('Auth check failed:', error);
       setState({ user: null, loading: false });

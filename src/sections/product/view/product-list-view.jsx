@@ -44,8 +44,8 @@ import {
 // ----------------------------------------------------------------------
 
 const PUBLISH_OPTIONS = [
-  { value: 'published', label: 'Published' },
-  { value: 'draft', label: 'Draft' },
+  { value: 'published', label: 'Available' },
+  { value: 'draft', label: 'Out of Stock' },
 ];
 
 const HIDE_COLUMNS = { category: false };
@@ -159,7 +159,6 @@ export function ProductListView() {
       field: 'price',
       headerName: 'Price',
       width: 140,
-      editable: true,
       renderCell: (params) => <RenderCellPrice params={params} />,
     },
     {
@@ -167,7 +166,6 @@ export function ProductListView() {
       headerName: 'Publish',
       width: 110,
       type: 'singleSelect',
-      editable: true,
       valueOptions: PUBLISH_OPTIONS,
       renderCell: (params) => <RenderCellPublish params={params} />,
     },
@@ -246,6 +244,7 @@ export function ProductListView() {
           <DataGrid
             checkboxSelection
             disableRowSelectionOnClick
+            disableColumnResize
             rows={dataFiltered}
             columns={columns}
             loading={productsLoading}
