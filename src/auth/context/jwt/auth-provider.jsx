@@ -20,25 +20,22 @@ export function AuthProvider({ children }) {
   const checkUserSession = useCallback(async () => {
     try {
       const accessToken = localStorage.getItem('adminToken');
-      
+
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
         const adminData = JSON.parse(localStorage.getItem('adminData'));
-        
+
         if (adminData) {
           setState({
             user: { ...adminData, accessToken },
             loading: false,
           });
           return true; // ← Return success
-        } else {
-          setState({ user: null, loading: false });
-          return false;
         }
-      } else {
         setState({ user: null, loading: false });
         return false;
       }
+      return false;
     } catch (error) {
       console.error('Auth check failed:', error);
       setState({ user: null, loading: false });

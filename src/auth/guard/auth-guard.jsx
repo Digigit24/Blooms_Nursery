@@ -16,7 +16,7 @@ export function AuthGuard({ children }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { authenticated, loading } = useAuthContext();
-  
+
   const [isChecking, setIsChecking] = useState(true);
   const [hasChecked, setHasChecked] = useState(false);
 
@@ -31,18 +31,18 @@ export function AuthGuard({ children }) {
 
   useEffect(() => {
     console.log('🔍 AuthGuard state change:', { authenticated, loading, hasChecked });
-    
+
     // If still loading, don't do anything
     if (loading) {
       console.log('⏳ Still loading...');
-      return;
+      return () => {};
     }
 
     // Add a small delay to ensure auth state has settled
     const timer = setTimeout(() => {
       if (!authenticated) {
         console.log('❌ Not authenticated after settling, redirecting to login');
-        
+
         const { method } = CONFIG.auth;
         const signInPath = {
           jwt: paths.auth.jwt.signIn,
