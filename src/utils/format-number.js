@@ -29,14 +29,12 @@ export function fNumber(inputValue, options) {
 // ----------------------------------------------------------------------
 
 export function fCurrency(inputValue, options) {
-  const locale = formatNumberLocale() || DEFAULT_LOCALE;
-
   const number = processInput(inputValue);
   if (number === null) return '';
 
-  const fm = new Intl.NumberFormat(locale.code, {
+  const fm = new Intl.NumberFormat('en-IN', {
     style: 'currency',
-    currency: locale.currency,
+    currency: 'INR',
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
     ...options,

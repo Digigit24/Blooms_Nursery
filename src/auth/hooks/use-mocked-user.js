@@ -15,16 +15,16 @@ import { _mock } from 'src/_mock';
 export function useMockedUser() {
   const user = {
     id: '8864c717-587d-472a-929a-8e5f298024da-0',
-    displayName: 'Jaydon Frankie',
-    email: 'demo@minimals.cc',
+    displayName: 'Blooms Nursery',
+    email: 'bloomsnursery@gmail.com',
     photoURL: _mock.image.avatar(24),
     phoneNumber: _mock.phoneNumber(1),
     country: _mock.countryNames(1),
-    address: '90210 Broadway Blvd',
-    state: 'California',
-    city: 'San Francisco',
+    address: 'behind Vanalika Housing Society, Pirangut, Mulshi, Maharashtra 412115',
+    state: 'Maharashtra',
+    city: 'Pune',
     zipCode: '94116',
-    about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
+    about: 'Blooms Nursery is a leading provider of high-quality plants and gardening supplies. We are dedicated to helping you create your dream garden with our wide selection of plants, tools, and accessories.',
     role: 'admin',
     isPublic: true,
   };

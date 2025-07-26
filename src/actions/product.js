@@ -1,7 +1,9 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
-import { fetcher, endpoints } from 'src/utils/axios';
+import axios, {fetcher, endpoints } from 'src/utils/axios';
+
+import { toast } from 'src/components/snackbar';
 
 const swrOptions = {
   revalidateIfStale: false,
@@ -76,6 +78,30 @@ export function useGetProducts() {
   );
 }
 
+export const handleDeleteProduct = async ({ ids = [], refetch }) => {
+  if (!ids.length) return;
+
+  const token = localStorage.getItem('adminToken');
+
+  try {
+    const deleteRequests = ids.map((id) =>
+      axios.delete(`${endpoints.product.delete}/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+    );
+
+    await Promise.all(deleteRequests);
+
+    toast.success(`${ids.length} product${ids.length > 1 ? 's' : ''} deleted successfully.`);
+
+    if (refetch) await refetch();
+  } catch (error) {
+    const message =
+      error?.response?.data?.message || error?.message || 'Failed to delete product(s)';
+    toast.error(message);
+    console.error('Delete failed:', error);
+  }
+};
 
 export function useGetProduct(productId) {
   const url = productId ? [endpoints.product.details, { params: { productId } }] : '';

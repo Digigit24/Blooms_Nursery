@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
 import LinearProgress from '@mui/material/LinearProgress';
 
+import { fDate } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
-import { fTime, fDate } from 'src/utils/format-time';
 
 import { Label } from 'src/components/label';
 
@@ -20,12 +20,23 @@ export function RenderCellPrice({ params }) {
 // ----------------------------------------------------------------------
 
 export function RenderCellPublish({ params }) {
+  const labelMap = {
+    published: 'Available',
+    draft: 'Out of Stock',
+  };
+
+  const label = labelMap[params.row.publish] || 'Unknown';
+
   return (
-    <Label variant="soft" color={(params.row.publish === 'published' && 'info') || 'default'}>
-      {params.row.publish}
+    <Label
+      variant="soft"
+      color={(params.row.publish === 'published' && 'info') || 'default'}
+    >
+      {label}
     </Label>
   );
 }
+
 
 // ----------------------------------------------------------------------
 
@@ -35,9 +46,9 @@ export function RenderCellCreatedAt({ params }) {
       <Box component="span" sx={{ typography: 'body2' }}>
         {fDate(params.row.createdAt)}
       </Box>
-      <Box component="span" sx={{ typography: 'caption', color: 'text.secondary' }}>
+      {/* <Box component="span" sx={{ typography: 'caption', color: 'text.secondary' }}>
         {fTime(params.row.createdAt)}
-      </Box>
+      </Box> */}
     </Stack>
   );
 }
@@ -142,11 +153,6 @@ export function RenderCellProduct({ params, onViewRow }) {
             {row.rating && (
               <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                 • Rating: {row.rating}
-              </Typography>
-            )}
-            {row.reviews && (
-              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                • Reviews: {row.reviews}
               </Typography>
             )}
           </Stack>

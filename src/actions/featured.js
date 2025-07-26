@@ -26,7 +26,7 @@ export async function getFeaturedProducts() {
     }
 
     if (!Array.isArray(response.data.data)) {
-      throw new Error('Expected data to be an array, got: ' + typeof response.data.data);
+      throw new Error(`Expected data to be an array, got: ${typeof response.data.data}`);
     }
 
     // ✅ Return the data array

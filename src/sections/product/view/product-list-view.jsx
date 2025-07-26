@@ -22,8 +22,8 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
 import { PRODUCT_STOCK_OPTIONS } from 'src/_mock';
-import { useGetProducts } from 'src/actions/product';
 import { DashboardContent } from 'src/layouts/dashboard';
+import { useGetProducts, handleDeleteProduct } from 'src/actions/product';
 
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
@@ -59,9 +59,11 @@ export function ProductListView() {
 
   const router = useRouter();
 
-  const { products, productsLoading } = useGetProducts();
+  const { products, productsLoading, refetch } = useGetProducts();
 
   const filters = useSetState({ publish: [], stock: [] });
+
+  const [deleteDialog, setDeleteDialog] = useState({ open: false, id: null });
 
   const [tableData, setTableData] = useState([]);
 
@@ -114,6 +116,7 @@ export function ProductListView() {
     [router]
   );
 
+
   const CustomToolbarCallback = useCallback(
     () => (
       <CustomToolbar
@@ -163,7 +166,7 @@ export function ProductListView() {
     },
     {
       field: 'publish',
-      headerName: 'Publish',
+      headerName: 'Availability',
       width: 110,
       type: 'singleSelect',
       valueOptions: PUBLISH_OPTIONS,
@@ -196,12 +199,11 @@ export function ProductListView() {
           showInMenu
           icon={<Iconify icon="solar:trash-bin-trash-bold" />}
           label="Delete"
-          onClick={() => {
-            handleDeleteRow(params.row.id);
-          }}
+          onClick={() => setDeleteDialog({ open: true, id: params.row.id })}
           sx={{ color: 'error.main' }}
         />,
       ],
+
     },
   ];
 
@@ -237,7 +239,7 @@ export function ProductListView() {
           sx={{
             flexGrow: { md: 1 },
             display: { md: 'flex' },
-            height: { xs: 800, md: 2 },
+            overflowY: 'hidden',
             flexDirection: { md: 'column' },
           }}
         >
@@ -270,21 +272,17 @@ export function ProductListView() {
       </DashboardContent>
 
       <ConfirmDialog
-        open={confirmRows.value}
-        onClose={confirmRows.onFalse}
-        title="Delete"
-        content={
-          <>
-            Are you sure want to delete <strong> {selectedRowIds.length} </strong> items?
-          </>
-        }
+        open={deleteDialog.open}
+        onClose={() => setDeleteDialog({ open: false, id: null })}
+        title="Confirm Delete"
+        content="Are you sure you want to delete this product?"
         action={
           <Button
             variant="contained"
             color="error"
-            onClick={() => {
-              handleDeleteRows();
-              confirmRows.onFalse();
+            onClick={async () => {
+              await handleDeleteProduct({ ids: [deleteDialog.id], refetch });
+              setDeleteDialog({ open: false, id: null });
             }}
           >
             Delete
