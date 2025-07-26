@@ -10,7 +10,6 @@ import {
   GridActionsCellItem,
   GridToolbarContainer,
   GridToolbarQuickFilter,
-  GridToolbarFilterButton,
   GridToolbarColumnsButton,
 } from '@mui/x-data-grid';
 
@@ -330,7 +329,7 @@ function CustomToolbar({
           )}
 
           <GridToolbarColumnsButton />
-          <GridToolbarFilterButton ref={setFilterButtonEl} />
+
           <GridToolbarExport />
         </Stack>
       </GridToolbarContainer>

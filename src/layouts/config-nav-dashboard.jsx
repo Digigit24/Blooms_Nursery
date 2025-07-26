@@ -59,9 +59,9 @@ export const navData = [
         icon: ICONS.product,
         children: [
           { title: 'List', path: paths.dashboard.product.root },
-          { title: 'Details', path: paths.dashboard.product.demo.details },
+          // { title: 'Details', path: paths.dashboard.product.demo.details },
           { title: 'Create', path: paths.dashboard.product.new },
-          { title: 'Edit', path: paths.dashboard.product.demo.edit },
+          // { title: 'Edit', path: paths.dashboard.product.demo.edit },
         ],
       },
       {
@@ -81,7 +81,7 @@ export const navData = [
   icon: ICONS.blog,
   children: [
     { title: 'Privacy-Policy', path: paths.dashboard.website.privacy_policy },
-    { title: 'Terms-Conditions', path: paths.dashboard.website.terms_conditions }, 
+    { title: 'Terms-Conditions', path: paths.dashboard.website.terms_conditions },
   ],
 },
     ],
