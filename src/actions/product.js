@@ -32,24 +32,34 @@ export function useGetProducts() {
     }
 
     return productsArray.map((product, index) => ({
+      // ✅ Keep original server field names for ProductItem component
       id: product.id || product._id || index,
-      name: product.product_name || product.name || 'Unnamed Product',
+      product_name: product.product_name || product.name || 'Unnamed Product',
       category: product.category || 'Uncategorized',
-      inventoryType: product.stock || product.inventoryType || product.inventory_type || 'in stock',
-      price: product.price || 0,
+      stock: product.stock || product.inventoryType || product.inventory_type || 0,
+      price: product.price || '0',
+      available: product.available !== undefined ? product.available : true,
+      image: product.image || product.imageUrl || product.image_url || null,
+      rating: product.rating || '0',
+      reviews: product.reviews || product.review_count || 0,
+      created:
+        product.created || product.createdAt || product.created_at || new Date().toISOString(),
+      updated:
+        product.updated || product.updatedAt || product.updated_at || new Date().toISOString(),
+
+      // ✅ Additional legacy fields for backward compatibility
+      name: product.product_name || product.name || 'Unnamed Product',
+      inventoryType: product.stock || product.inventoryType || product.inventory_type || 0,
       publish:
         product.available !== undefined
           ? product.available
             ? 'published'
             : 'draft'
           : product.publish || 'draft',
-      createdAt: product.created || product.createdAt || product.created_at || new Date().toISOString(),
-      image: product.image || product.imageUrl || product.image_url || null,
-      rating: product.rating || 0,
-      reviews: product.reviews || product.review_count || 0,
+      createdAt:
+        product.created || product.createdAt || product.created_at || new Date().toISOString(),
       description: product.description || '',
       quantity: product.quantity || 0,
-      available: product.available || product.in_stock || 0,
     }));
   }, [data]);
 
@@ -66,6 +76,7 @@ export function useGetProducts() {
   );
 }
 
+
 export function useGetProduct(productId) {
   const url = productId ? [endpoints.product.details, { params: { productId } }] : '';
 
@@ -79,11 +90,22 @@ export function useGetProduct(productId) {
     if (!product) return null;
 
     return {
+      // ✅ Keep original server field names for ProductItem component
       id: product.id || product._id,
-      name: product.product_name || product.name || 'Unnamed Product',
+      product_name: product.product_name || product.name || 'Unnamed Product',
       category: product.category || 'Uncategorized',
-      inventoryType: product.stock || product.inventoryType || 'in stock',
-      price: product.price || 0,
+      stock: product.stock || product.inventoryType || 0,
+      price: product.price || '0',
+      available: product.available !== undefined ? product.available : true,
+      image: product.image || product.imageUrl || null,
+      rating: product.rating || '0',
+      reviews: product.reviews || 0,
+      created: product.created || product.createdAt || new Date().toISOString(),
+      updated: product.updated || product.updatedAt || new Date().toISOString(),
+
+      // ✅ Additional legacy fields for backward compatibility
+      name: product.product_name || product.name || 'Unnamed Product',
+      inventoryType: product.stock || product.inventoryType || 0,
       publish:
         product.available !== undefined
           ? product.available
@@ -91,12 +113,8 @@ export function useGetProduct(productId) {
             : 'draft'
           : product.publish || 'draft',
       createdAt: product.created || product.createdAt || new Date().toISOString(),
-      image: product.image || product.imageUrl || null,
-      rating: product.rating || 0,
-      reviews: product.reviews || 0,
       description: product.description || '',
       quantity: product.quantity || 0,
-      available: product.available || 0,
     };
   }, [data]);
 
@@ -131,11 +149,22 @@ export function useSearchProducts(query) {
     if (!Array.isArray(results)) return [];
 
     return results.map((product, index) => ({
+      // ✅ Keep original server field names for ProductItem component
       id: product.id || product._id || index,
-      name: product.product_name || product.name || 'Unnamed Product',
+      product_name: product.product_name || product.name || 'Unnamed Product',
       category: product.category || 'Uncategorized',
-      inventoryType: product.stock || product.inventoryType || 'in stock',
-      price: product.price || 0,
+      stock: product.stock || product.inventoryType || 0,
+      price: product.price || '0',
+      available: product.available !== undefined ? product.available : true,
+      image: product.image || product.imageUrl || null,
+      rating: product.rating || '0',
+      reviews: product.reviews || 0,
+      created: product.created || product.createdAt || new Date().toISOString(),
+      updated: product.updated || product.updatedAt || new Date().toISOString(),
+
+      // ✅ Additional legacy fields for backward compatibility
+      name: product.product_name || product.name || 'Unnamed Product',
+      inventoryType: product.stock || product.inventoryType || 0,
       publish:
         product.available !== undefined
           ? product.available
@@ -143,9 +172,6 @@ export function useSearchProducts(query) {
             : 'draft'
           : product.publish || 'draft',
       createdAt: product.created || product.createdAt || new Date().toISOString(),
-      image: product.image || product.imageUrl || null,
-      rating: product.rating || 0,
-      reviews: product.reviews || 0,
     }));
   }, [data]);
 

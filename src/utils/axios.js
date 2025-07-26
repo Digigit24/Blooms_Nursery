@@ -55,4 +55,7 @@ export const endpoints = {
     details: '/api/product/details',
     search: '/api/product/search',
   },
+  featured: {
+    list: '/api/featured/active',
+  },
 };

@@ -1,4 +1,5 @@
 import axios, { endpoints } from 'src/utils/axios';
+
 import { setSession } from './utils';
 import { STORAGE_KEY } from './constant';
 
@@ -50,30 +51,22 @@ export const signInWithPassword = async ({ username, password }) => {
 };
 
 export const signUp = async ({ email, password, firstName, lastName }) => {
-  try {
-    const res = await axios.post(endpoints.auth.signUp, {
-      email,
-      password,
-      firstName,
-      lastName,
-    });
+  const res = await axios.post(endpoints.auth.signUp, {
+    email,
+    password,
+    firstName,
+    lastName,
+  });
 
-    const { accessToken } = res.data;
+  const { accessToken } = res.data;
 
-    if (!accessToken) {
-      throw new Error('Access token not found in response');
-    }
-
-    sessionStorage.setItem(STORAGE_KEY, accessToken);
-  } catch (error) {
-    throw error;
+  if (!accessToken) {
+    throw new Error('Access token not found in response');
   }
+
+  sessionStorage.setItem(STORAGE_KEY, accessToken);
 };
 
 export const signOut = async () => {
-  try {
-    await setSession(null);
-  } catch (error) {
-    throw error;
-  }
+  await setSession(null);
 };

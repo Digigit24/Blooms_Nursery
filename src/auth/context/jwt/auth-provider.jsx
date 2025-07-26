@@ -20,11 +20,11 @@ export function AuthProvider({ children }) {
   const checkUserSession = useCallback(async () => {
     try {
       const accessToken = localStorage.getItem('adminToken');
-      
+
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
         const adminData = JSON.parse(localStorage.getItem('adminData'));
-        
+
         if (adminData) {
           setState({
             user: { ...adminData, accessToken },
